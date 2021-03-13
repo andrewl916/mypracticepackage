@@ -1,5 +1,6 @@
 ---
 title: "Project 3: mypracticepackage Tutorial"
+author: "Andrew Lee"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{mypracticepackage Tutorial}
@@ -16,4 +17,8 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(mypracticepackage)
+```
+
+```{r}
+2 * 2
 ```
