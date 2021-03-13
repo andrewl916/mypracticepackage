@@ -9,10 +9,11 @@ The goal of mypracticepackage is to ...
 
 ## Installation
 
-You can install the released version of mypracticepackage from [CRAN](https://CRAN.R-project.org) with:
+You can install mypracticepackage from the following line:
+
 
 ``` r
-install.packages("mypracticepackage")
+devtools::install_github("andrewl916/mypracticepackage", build_vignette = TRUE, build_opts = c())
 ```
 
 ## Example
