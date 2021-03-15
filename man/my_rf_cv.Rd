@@ -13,7 +13,8 @@ my_rf_cv(k)
 Numeric indicating average MSE across all k folds
 }
 \description{
-This function predicts \code{body_mass_g} using covariates \code{bill_length_mm}, \code{bill_depth_mm}, and \code{flipper_length_mm}.
+This function predicts \code{body_mass_g} using covariates
+\code{bill_length_mm}, \code{bill_depth_mm}, and \code{flipper_length_mm}.
 }
 \examples{
 my_rf_cv(5)

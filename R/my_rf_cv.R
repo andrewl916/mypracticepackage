@@ -1,6 +1,7 @@
 #' Random forest cross-validation function.
 #'
-#' This function predicts \code{body_mass_g} using covariates \code{bill_length_mm}, \code{bill_depth_mm}, and \code{flipper_length_mm}.
+#' This function predicts \code{body_mass_g} using covariates
+#'   \code{bill_length_mm}, \code{bill_depth_mm}, and \code{flipper_length_mm}.
 #'
 #' @param k number of folds
 #'
@@ -11,7 +12,7 @@
 #'
 #' @export
 my_rf_cv <- function(k){
-  penguins <- mypracticepackage::my_penguins
+  penguins <- na.omit(mypracticepackage::my_penguins)
   # randomly assigns observations to folds
   folds <- sample(rep(1:k, length = nrow(penguins)))
 
