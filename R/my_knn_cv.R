@@ -14,17 +14,15 @@
 #'
 #' @examples
 #' # import palmerpenguins data
-#' data(package = "palmerpenguins")
 #' # delete rows with NA data
-#' penguins <- na.omit(penguins)
+#' penguins <- na.omit(mypracticepackage::my_penguins)
 #'
 #' # create x and y matrices
 #' train <- penguins[3:6]
-#' cl <- penguins %>% pull(species)
+#' cl <- penguins %>% dplyr::pull(species)
 #' cv_err <- my_knn_cv(train, cl, 1, 5)$cv_error
 #'
 #' @export
-
 my_knn_cv <- function(train, cl, k_nn, k_cv){
   # randomly assigns observations to folds 1,...,k
   folds <- sample(rep(1:k_cv, length = length(cl)))

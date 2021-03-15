@@ -11,9 +11,22 @@ The goal of mypracticepackage is to ...
 
 You can install mypracticepackage from the following line:
 
+``` r
+devtools::install_github("andrewl916/mypracticepackage", build_vignette = TRUE, build_opts = c())
+```
+
+## Use
+
+The vignette demonstrates example usage of the main functions. You can see the 
+vignette by using the following code:
 
 ``` r
 devtools::install_github("andrewl916/mypracticepackage", build_vignette = TRUE, build_opts = c())
+library(mypracticepackage)
+# Use this to view the vignette in the Demo HTML help
+help(package = "mypracticepackage", help_type = "html")
+# Use this to view the vignette as an isolated HTML file
+utils::browseVignettes(package = "mypracticepackage")
 ```
 
 ## Example

@@ -11,6 +11,11 @@
 #'   degrees of freedom; alternative, the value of the parameter "alternative;"
 #'   and p_val, the numeric p-value.
 #'
+#' @importFrom randomForest randomForest
+#' @importFrom stats model.frame model.matrix model.response na.omit predict pt sd terms
+#' @importFrom dplyr filter pull
+#' @importFrom class knn
+#'
 #' @examples
 #' set.seed(214)
 #' p <- 0.4
