@@ -3,6 +3,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/andrewl916/mypracticepackage/workflows/R-CMD-check/badge.svg)](https://github.com/andrewl916/mypracticepackage/actions)
+[![codecov](https://codecov.io/gh/andrewl916/mypracticepackage/branch/master/graph/badge.svg?token=7E5384U58R)](https://codecov.io/gh/andrewl916/mypracticepackage)
 <!-- badges: end -->
 
 The goal of mypracticepackage is to ...
