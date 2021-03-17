@@ -25,4 +25,5 @@ data <- mtcars
 my_lm(formula, data)
 
 }
-\keyword{regression}
+\keyword{inference}
+\keyword{prediction}

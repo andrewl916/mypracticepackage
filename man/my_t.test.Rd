@@ -29,4 +29,4 @@ coin_flips <- rbinom(200, size = 1, prob = p)
 my_t.test(as.numeric(coin_flips), alternative = "greater", mu = p)
 
 }
-\keyword{t-test}
+\keyword{inference}
