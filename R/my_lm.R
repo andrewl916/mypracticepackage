@@ -5,6 +5,7 @@
 #'
 #' @param formula a formula class object, similar to \code{lm()}.
 #' @param data input data frame.
+#' @keywords inference prediction
 #'
 #' @return Table with rows for each coefficient (including the intercept) and
 #'   columns for the Estimate, Std. Error, t value, and Pr(>|t|).
@@ -29,7 +30,7 @@ my_lm <- function(formula, data){
   # calculate the reference
   var <- sum((y - x %*% beta)^2 / df)
   # calculate the standard error
-  se <- diag(sqrt(var * solve(t(x) %*% x)))
+  se <- sqrt(diag(var * solve(t(x) %*% x)))
 
   # calculate the test statistic
   t_obs <- beta / se

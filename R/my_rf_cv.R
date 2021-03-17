@@ -4,6 +4,7 @@
 #'   \code{bill_length_mm}, \code{bill_depth_mm}, and \code{flipper_length_mm}.
 #'
 #' @param k number of folds
+#' @keywords prediction
 #'
 #' @return Numeric indicating average MSE across all k folds
 #'
@@ -12,6 +13,9 @@
 #'
 #' @export
 my_rf_cv <- function(k){
+  if(class(k) != "numeric") {
+    stop("x must be numeric")
+  }
   penguins <- na.omit(mypracticepackage::my_penguins)
   # randomly assigns observations to folds
   folds <- sample(rep(1:k, length = nrow(penguins)))
@@ -36,6 +40,6 @@ my_rf_cv <- function(k){
     mse_lst <- append(mse_lst, pred)
   }
 
-  mse <- (1 / length(penguins)) * sum(penguins[6] - mse_lst) ^ 2
+  mse <- (1 / length(penguins)) * sum((penguins[6] - mse_lst) ^ 2)
   return(mse)
 }

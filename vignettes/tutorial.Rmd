@@ -1,6 +1,6 @@
 ---
 title: "Project 3: mypracticepackage Tutorial"
-author: "Andrew Lee"
+author: "Andrew Lee & Lori Wang"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{mypracticepackage Tutorial}
@@ -14,11 +14,189 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+### 1. Introduction
+This package features many statistical functions developed by me for the STAT 302 class at the University of Washington. It can be installed via the following code:
+```{r, eval = FALSE}
+devtools::install_github("andrewl916/mypracticepackage", build_vignette = TRUE, build_opts = c())
+```
 
 ```{r setup}
+library(magrittr)
+library(dplyr)
 library(mypracticepackage)
+library(kableExtra)
+library(ggplot2)
 ```
 
+
+### 2. my_t.test Demonstration
+  In this section, we would use $lifeExp$ data from $my\_gapminder$ to show all hypothesis conditions (two.side, less, greater) using my_t.test function.
+  
+$$H_0: \mu = 60$$
+$$H_a: \mu \neq 60$$
+
+$$\alpha = 0.05$$
+
+
+
 ```{r}
-2 * 2
+data(my_gapminder)
+
+mu <- 60
+my_t.test(my_gapminder$lifeExp, "two.sided", mu)
 ```
+This is a two-tail my_t.test with a null hypothesis $\mu$ = 60, with an  alternative hypothesis that $H_a$ is not equal to 60. THe $p\_value$ of this test equals to 0.093, which is greater than $\alpha$. Therefore, we fail to reject the null hypothesis. 
+
+$$H_0: \mu = 60$$
+$$H_a: \mu > 60$$
+$$\alpha = 0.05$$
+
+```{r}
+my_t.test(my_gapminder$lifeExp, "greater", mu)
+```
+This is an one-tail my_t.test with null hypothesis $\mu$ = 60, with an alternative hypothesis that $H_a$ is bigger than 60. The $p\_value$ of this test equals to 0.95 which is greater than $\alpha$. Therefore, we fail to reject the null hypothesis. 
+
+$$H_0: \mu = 60$$
+
+$$H_a: \mu < 60$$
+$$\alpha = 0.05$$
+
+```{r}
+my_t.test(my_gapminder$lifeExp, "less", mu)
+```
+This is an one-tail my_t.test with null hypothesis $\mu$ = 60, with an alternative hypothesis that $H_a$ is less than 60. And $p\_value$ of this test equals to 0.046, which is less than $\alpha$. Therefore, we have enough evident to reject the null hypothesis. 
+
+### 3. my_lm Demonstration
+In this section, we also use $my\_gapminder$ data to show the linear regression model with the function my_lm. For this regression, $lifeExp$ is the response variable and $gdpPercap$ and $continent$ are the explanatory variables.
+
+```{r, warning=FALSE}
+my_lm_model <- my_lm(lifeExp ~ gdpPercap + continent, my_gapminder)
+my_lm_model
+co_lifeExp <- my_lm_model[2,1]
+co_lifeExp 
+```
+From the $coefficient$ of $gdpPercap$ above, we know that $lifeExp$ has a positive linear relationship with $gdpPercap$. Also, this value could tell us the expected difference in $lifeExp$ between two observations differing by one unit in $gdpPercap$, with all other covariates identical.
+
+
+We now set a two.sided hypothesis test of $gdpPercap$ coefficient.
+$$H_0: gdpPercap\_co = 0$$
+
+$$H_a: gdpPercap\_co \neq 0$$
+$$\alpha = 0.05$$
+```{r, warning=FALSE}
+my_lm_p <- my_lm_model[2,4]
+my_lm_p < 0.05
+```
+
+Our $p\_value$ is much smaller than 0.05. Therefore, we have enough evidence to reject the null hypothesis. 
+
+```{r}
+# calculate y^hat
+my_co <- as.matrix(my_lm_model[,1])
+x <- model.matrix(lifeExp ~ gdpPercap + continent, my_gapminder)
+y_hat <- x %*% my_co
+my_df <- data.frame(actual = my_gapminder$lifeExp,
+                    fitted = y_hat, continent = my_gapminder$continent)
+ggplot(my_df, aes(x = fitted, y = actual, color = continent)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, col = "black", lty = 2) + 
+  theme_bw(base_size = 10) +
+  labs(x = "Fitted values", y = "Actual values", title = "Actual vs. Fitted") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 14))
+```
+
+
+
+This graph displays the Actual vs. Fitted plot. We could find that our fitted values are not completely follow the actual values. For example, for Europe and Oceania, the fitted values are follow the pattern of actual values. However, for other countries, our fitted values are not as accurate, especially for Africa. 
+
+### 4. my_knn_cv Demonstration
+This function performs a k-nearest neighbors non-parametric prediction algorithm. It splits a provided dataset into training and testing segments based on
+the number of "neighbors," or the distance from the training data, desired. It will predict new cases provided in the testing data given the training data.
+We want to predict $$species$$ using covariates $$bill\_length\_mm$$, $$bill\_depth\_mm$$, $$flipper\_length\_mm$$, $$body\_mass\_g$$ with $$k\_cv = 5$$.
+Inputs:
+- $$train$$: input data frame
+- $$cl$$: true class value of the training data
+- $$k\_nn$$: integer representing the number of neighbors
+- $$k\_cv$$: integer representing the number of folds
+```{r}
+
+# import my_penguins data
+data(my_penguins)
+
+# delete rows with NA data
+penguins <- na.omit(my_penguins)
+
+# create x and y matrices
+train <- penguins[3:6]
+cl <- penguins %>% pull(species)
+
+# Initiate empty lists to store training and CV misclassfication rates
+training_error = rep(NA, length(10))
+cv_error = rep(NA, length(10))
+
+# Iterate different fits from k_nn of 1 to 10
+for (n in 1:10){
+  results <- my_knn_cv(train, cl, n, 5)
+  training_error[n] <- results$training_error
+  cv_error[n] <- results$cv_error
+}
+
+# Organize the errors into a table
+err_data <- data.frame("k_nn" = c(1:10),
+                       "cv_error" = cv_error,
+                       "training_error" = training_error)
+
+kable_styling(kable(err_data))
+```
+
+Based on both the training and CV misclassification rates, a fold of 1 would be ideal since it has the minimum value for both. In practice, it is always the best to use the model with the least CV error, so a k_nn of 1 would also be chosen for practice.
+
+### 5. my_rf_cv Demonstration
+Instead of classifying based on neighboring data points in the training data,
+the random forest algorithm classify based on splits in the parameters.
+We want to predict $$body\_mass\_g$$ using covariates $$bill\_length\_mm$$, $$bill\_depth\_mm$$, $$flipper\_length\_mm$$.
+Inputs:
+- \code{k}: number of folds
+```{r}
+# remove NA data in the data set
+penguins <- na.omit(penguins)
+
+# create a list to label the number of folds
+folds <- c(rep("2", 30), rep("5", 30), rep("10", 30))
+
+# create empty lists to store MSE
+MSE_2 <- rep(NA, length(30))
+MSE_5 <- rep(NA, length(30))
+MSE_10 <- rep(NA, length(30))
+
+# fill MSE data
+for (k in 1:30){
+  MSE_2[k] <- my_rf_cv(2)
+  MSE_5[k] <- my_rf_cv(5)
+  MSE_10[k] <- my_rf_cv(10)
+}
+
+# combine the label and data into one data frame
+MSE_data <- data.frame(names = folds,
+                       MSE = c(MSE_2, MSE_5, MSE_10))
+```
+```{r}
+# plot the data
+ggplot(data = MSE_data,
+       aes(x = names, MSE)) +
+  geom_boxplot(fill = "lightblue") +
+  theme_bw(base_size = 20) +
+  labs(title = "MSE According to Number of Folds",
+       x = "Number of Folds",
+       y = "MSE") +
+  theme(plot.title =
+          element_text(hjust = 0.5),
+        text = element_text(size = 12))  
+```
+```{r}
+MSE_table <- data.frame("folds" = c(2, 5, 10),
+                        "mean" = c(mean(MSE_2), mean(MSE_5), mean(MSE_10)),
+                        "std_deviation" = c(sd(MSE_2), sd(MSE_5), sd(MSE_10)))
+kable_styling(kable(MSE_table))
+```
+In general, a fold of 2 has the widest standard deviation, while a fold of 10 gives the lowest mean MSE. THis could be the case because having 10 folds allows for the algorithm to best predict the body weight of the penguins in the dataset.

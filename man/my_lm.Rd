@@ -25,3 +25,4 @@ data <- mtcars
 my_lm(formula, data)
 
 }
+\keyword{regression}

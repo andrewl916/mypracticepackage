@@ -6,7 +6,7 @@
 #' @param alternative a character string specifying the alternative hypothesis
 #'   ("two.sided", "less", or "greater").
 #' @param mu a number indicating the null hypothesis value of the mean.
-#'
+#' @keywords inference
 #' @return List with elements: test_stat, the numeric test statistic; df, the
 #'   degrees of freedom; alternative, the value of the parameter "alternative;"
 #'   and p_val, the numeric p-value.
@@ -15,16 +15,22 @@
 #' @importFrom stats model.frame model.matrix model.response na.omit predict pt sd terms
 #' @importFrom dplyr filter pull
 #' @importFrom class knn
+#' @importFrom tibble tibble
+#' @import ggplot2
+#' @import magrittr
 #'
 #' @examples
 #' set.seed(214)
 #' p <- 0.4
 #' coin_flips <- rbinom(200, size = 1, prob = p)
-#' my_t.test(coin_flips, alternative = "greater", mu = p)
+#' my_t.test(as.numeric(coin_flips), alternative = "greater", mu = p)
 #'
 #' @export
 
 my_t.test <- function(x, alternative = "two.sided", mu) {
+  if(class(x) != "numeric") {
+    stop("x must be numeric")
+  }
   # calculate the estimated mean
   est <- mean(x)
   # calculate the degrees of freedom

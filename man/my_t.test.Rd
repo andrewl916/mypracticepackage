@@ -26,6 +26,7 @@ This function performs one and two sample t-tests on vectors of data.
 set.seed(214)
 p <- 0.4
 coin_flips <- rbinom(200, size = 1, prob = p)
-my_t.test(coin_flips, alternative = "greater", mu = p)
+my_t.test(as.numeric(coin_flips), alternative = "greater", mu = p)
 
 }
+\keyword{t-test}

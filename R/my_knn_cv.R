@@ -7,6 +7,7 @@
 #' @param cl true class value of your training data.
 #' @param k_nn integer representing the number of neighbors.
 #' @param k_cv integer representing the number of folds.
+#' @keywords prediction
 #'
 #' @return List containing elements: class, a vector of the predicted class for
 #'   for all observations; and cv_err, a numeric with the cross-validation

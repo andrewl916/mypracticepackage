@@ -35,3 +35,5 @@ cl <- penguins \%>\% dplyr::pull(species)
 cv_err <- my_knn_cv(train, cl, 1, 5)$cv_error
 
 }
+\keyword{k-nearest}
+\keyword{neighbors}

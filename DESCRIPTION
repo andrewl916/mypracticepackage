@@ -16,7 +16,6 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
-Config/testthat/edition: 3
 Depends: 
     R (>= 2.10)
 VignetteBuilder: knitr
@@ -27,4 +26,7 @@ Imports:
     randomForest,
     kableExtra,
     stringr,
-    magrittr
+    magrittr,
+    ggplot2,
+    gapminder
+Config/testthat/edition: 3

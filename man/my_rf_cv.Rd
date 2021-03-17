@@ -20,3 +20,5 @@ This function predicts \code{body_mass_g} using covariates
 my_rf_cv(5)
 
 }
+\keyword{forest}
+\keyword{random}
