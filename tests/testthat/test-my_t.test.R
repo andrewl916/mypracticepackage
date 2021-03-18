@@ -1,17 +1,30 @@
-set.seed(214)
-p <- 0.4
-coin_flips <- rbinom(200, size = 1, prob = p)
+set.seed(302)
+a <- rbinom(100, size = 10, prob = 0.2)
 
-test_that("non-numeric input throws error", {
-  expect_error(my_t.test("string", alternative = "greater", mu = p))
+test_that("my_t.test works mathematically with two.sided",{
+  my_value <- my_t.test(a, "two.sided", 0.8 )
+  true_value <- t.test(a, mu = 0.8, alternative = "two.sided")
+  expect_true(my_value$test_stat == true_value$statistic)
+  expect_true(my_value$df == true_value$parameter)
+  expect_true(my_value$p_val == true_value$p.value)
 })
 
-test_that("Check for correct output type", {
-  expect_type(my_t.test(as.numeric(coin_flips), alternative = "greater", mu = p),
-              "list")
+test_that("my_t.test works mathematically with greater",{
+  my_value <- my_t.test(a, "greater", 0.8 )
+  true_value <- t.test(a, mu = 0.8, alternative = "greater")
+  expect_true(my_value$test_stat == true_value$statistic)
+  expect_true(my_value$df == true_value$parameter)
+  expect_true(my_value$p_val == true_value$p.value)
 })
 
-test_that("Checck if p_value has correct type", {
-  expect_type(my_t.test(as.numeric(coin_flips), alternative = "greater", mu = p)$p_val,
-              "double")
+test_that("my_t.test works mathematically with less",{
+  my_value <- my_t.test(a, "less", 0.8 )
+  true_value <- t.test(a, mu = 0.8, alternative = "less")
+  expect_true(my_value$test_stat == true_value$statistic)
+  expect_true(my_value$df == true_value$parameter)
+  expect_true(my_value$p_val == true_value$p.value)
+})
+
+test_that("my_t.test with error alternatives", {
+  expect_error(my_t.test(a, "sample",  0.8))
 })
