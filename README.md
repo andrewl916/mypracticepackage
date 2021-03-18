@@ -6,7 +6,10 @@
 [![codecov](https://codecov.io/gh/andrewl916/mypracticepackage/branch/master/graph/badge.svg?token=7E5384U58R)](https://codecov.io/gh/andrewl916/mypracticepackage)
 <!-- badges: end -->
 
-The goal of mypracticepackage is to ...
+The goal of mypracticepackage is to demonstrate multiple functions developed in 
+the STAT 302 course at the University of Washington.
+
+This package was developed in collaboration with Lori Wang
 
 ## Installation
 
@@ -30,12 +33,4 @@ help(package = "mypracticepackage", help_type = "html")
 utils::browseVignettes(package = "mypracticepackage")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-library(mypracticepackage)
-## basic example code
-```
 
