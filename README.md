@@ -9,7 +9,7 @@
 The goal of mypracticepackage is to demonstrate multiple functions developed in 
 the STAT 302 course at the University of Washington.
 
-This package was developed in collaboration with Lori Wang
+This package was developed in collaboration with Lori Wang.
 
 ## Installation
 
